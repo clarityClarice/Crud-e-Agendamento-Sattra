@@ -1,0 +1,30 @@
+.userCPF{
+    max-width: 50%;
+    min-width: 300px;
+    margin: 10px;
+    border-radius: 10px;
+}
+
+.buscarBtn{
+    border-radius: 10px;
+    background-color: lightblue;
+}
+
+.buscarBtn:hover{
+    background-color: lightseagreen;
+    color: #FFF;
+}
+
+.inputs {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.inputs input{
+    margin: 5px;
+    border-radius: 5px;
+}
+
+button{
+    max-width: 120px;
+}

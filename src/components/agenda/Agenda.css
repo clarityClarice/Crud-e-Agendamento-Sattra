@@ -1,0 +1,13 @@
+.datePicker input{
+    border-radius: 5px;
+}
+
+.datePicker, .title{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.title {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}

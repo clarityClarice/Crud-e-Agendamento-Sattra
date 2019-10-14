@@ -20,6 +20,9 @@ class listarCadastros extends React.Component {
                     <tr>
                         <th>Nome</th>
                         <th>CPF</th>
+                        <th>Cargo</th>
+                        <th>Passaporte</th>
+                        <th>Status</th>
                         <th>Ações</th>
                     </tr>
                 </thead>
@@ -36,6 +39,9 @@ class listarCadastros extends React.Component {
                 <tr key={user.id}>
                     <td>{user.name}</td>
                     <td>{user.cpf}</td>
+                    <td>{user.cargo}</td>
+                    <td>{user.passaporte}</td>
+                    <td>{user.status}</td>
                     <td>
                         <button className="btn btn-warning" onClick={() => this.load(user)}>
                             <i className="fa fa-pencil"></i>

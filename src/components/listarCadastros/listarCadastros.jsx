@@ -1,18 +1,30 @@
 import React from 'react'
-import Axios from 'axios'
-import { Link } from 'react-router-dom'
+import api from '../../services/api'
 
 import './listarCadastros.css'
 
 import Main from '../template/Main'
 
-const initialState = {
-    user: {name: '', cpf: ''},
-    list: []
-}
-
 class listarCadastros extends React.Component {
-    state = { ...initialState}
+ 
+    state = { 
+        pessoa: {},
+        pessoas: []
+    }
+
+    componentDidMount(){
+       async function listarPessoas(){
+            const response = await api.get('/ws/pessoas', {
+                data: {
+                    "empresa_id": 20180000001
+                }
+            })
+           // this.setState({pessoas: response.data})
+           console.log(response.data)
+        }
+        listarPessoas()
+    }
+    
     renderTable(){
         return (
             <table className="table mt-4">
@@ -34,20 +46,20 @@ class listarCadastros extends React.Component {
     }
 
     renderRows(){
-        return this.state.list.map( user => {
+        return this.state.pessoas.map( pessoa => {
             return (
-                <tr key={user.id}>
-                    <td>{user.name}</td>
-                    <td>{user.cpf}</td>
-                    <td>{user.cargo}</td>
-                    <td>{user.passaporte}</td>
-                    <td>{user.status}</td>
+                <tr key={pessoa.id}>
+                    <td>{pessoa.name}</td>
+                    <td>{pessoa.cpf}</td>
+                    <td>{pessoa.cargo}</td>
+                    <td>{pessoa.passaporte}</td>
+                    <td>{pessoa.status}</td>
                     <td>
-                        <button className="btn btn-warning" onClick={() => this.load(user)}>
+                        <button className="btn btn-warning" onClick={() => this.load(pessoa)}>
                             <i className="fa fa-pencil"></i>
                         </button>
 
-                        <button className="btn btn-danger ml-2" onClick={() => this.remove(user)}>
+                        <button className="btn btn-danger ml-2" onClick={() => this.remove(pessoa)}>
                             <i className="fa fa-trash"></i>
                         </button>
                     </td>

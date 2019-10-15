@@ -1,8 +1,7 @@
 import React from 'react'
 import Main from '../template/Main'
-import Axios from 'axios'
 
-const baseUrl = 'http://localhost:3001/users'
+
 
 const initialState = {
     user: {name: '', cpf: '', horaInicial:'', horaFinal:''},

@@ -2,7 +2,6 @@ import React from 'react'
 import { Switch, Route, Redirect } from 'react-router'
 
 
-import Login from '../login/Login'
 import Home from '../components/home/Home'
 import listarCadastros from '../components/listarCadastros/listarCadastros'
 import UserCrud from '../components/user/UserCrud'

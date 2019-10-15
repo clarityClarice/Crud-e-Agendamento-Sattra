@@ -52,6 +52,10 @@ class Agendar extends React.Component {
                 </p>
                 <div className="inputs">
                     <div className="form-group">
+                        <span>Data</span>
+                        <input type="date"></input>
+                    </div>
+                    <div className="form-group">
                         <label>Hora Inicial</label>
                         <input type="time" />
                     </div>

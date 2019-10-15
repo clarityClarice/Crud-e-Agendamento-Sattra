@@ -14,13 +14,19 @@ class listarCadastros extends React.Component {
 
     componentDidMount(){
        async function listarPessoas(){
-            const response = await api.get('/ws/pessoas', {
-                data: {
-                    "empresa_id": 20180000001
-                }
-            })
+            try {
+                const response = await api.get('/ws/pessoas', {
+                    data: {
+                        "empresa_id": 20180000001
+                    }
+                })
+                console.log(response);
+            } catch (error) {
+                console.error(error);
+              }
+            
            // this.setState({pessoas: response.data})
-           console.log(response.data)
+           
         }
         listarPessoas()
     }

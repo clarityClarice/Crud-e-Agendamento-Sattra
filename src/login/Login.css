@@ -1,0 +1,27 @@
+.contentLogin{
+    position: relative;
+}
+
+.loginForm{
+    max-width: 500px;
+    max-height: 500px;
+    background-color: lightskyblue;
+    padding: 10px;
+    border-radius: 15px;
+    top: 50%;
+    border: 3px solid blue;
+}
+
+.loginForm .form-group{
+    display: flex; 
+    flex-direction: column;
+}
+
+.loginForm .form-group input{
+    border-radius: 5px;
+}
+
+button.Entrar{
+    width: 100%;
+    border-radius: 5px;
+}

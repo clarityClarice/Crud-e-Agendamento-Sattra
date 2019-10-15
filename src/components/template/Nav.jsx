@@ -5,14 +5,14 @@ import { Link } from 'react-router-dom'
 export default props =>
     <aside className="menu-area">
         <nav className="menu">
-            <Link to="/">
+            <Link to="/app/home">
                 <i className="fa fa-home"></i>  Dashboard
             </Link>
-            <Link to="/cadastros">
+            <Link to="/app/cadastros">
                 <i className="fa fa-users"></i> Cadastros
             </Link>
-            <Link to="/agenda">
-                <i class="fa fa-calendar"></i> Agenda
+            <Link to="/app/agenda">
+                <i className="fa fa-calendar"></i> Agenda
             </Link>
         </nav>
     </aside>

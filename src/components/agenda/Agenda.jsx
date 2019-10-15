@@ -51,13 +51,29 @@ export default class Home extends React.Component {
             <Main icon="calendar" title="Agenda" subtitle="Visualizar, editar, adicionar e excluir agendamentos">
                 
                 <div className="content">
-                    <div className="title lead text-muted">
-                        <span>Selecionar Data</span>
-                    </div> 
+                    <div className="mastergroup">
+                        <div className="group" >
+                            <div className="title lead text-muted">
+                                <span>Selecionar Data Inicial</span>
+                            </div> 
 
-                    <div className="datePicker ">
-                        <input type="date"></input>
-                    </div>  
+                            <div className="datePicker ">
+                                <input type="date"></input>
+                            </div>  
+                        </div>
+                        
+                        <div className="group">
+                            <div className="title lead text-muted">
+                                <span>Selecionar Data Final</span>
+                            </div> 
+
+                            <div className="datePicker ">
+                                <input type="date"></input>
+                            </div>  
+                        </div>
+                    </div>
+                    
+                    
 
                     <a className="float" href="/#/agendar">
                         <i className="fa fa-plus my-float"></i>

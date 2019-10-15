@@ -1,5 +1,9 @@
-# Aplicação básica de frontend
-## Com base no curso React+Redux da COD3R (sessão 21) disponível na plataforma Udemy
+# Aplicação frontend CRUD de cadastros e agendamentos
+## Desenvolvida para o porto de Itajaí
 
 ### Detalhes
-O foco da criação desta aplicação é para aprendizado e desenvolvimento de habilidades da programadora, com foco em manipulação de estilos utilizando CSS e Bootstrap. Utiliza react-router e react-router-dom.
+ * Possui Dashboard que deverá mostrar os agendamentos do dia
+ * Lista de cadastros com botão flutuante para adicionar novos cadastros
+ * Página para adicionar novo cadastro com 10 campos de informações
+ * Agenda com filtro de dada com botão flutuante para adicionar novos agendamentos
+ * Página para adicionar novo agendamento com data, hora inicial, hora final e setor responsável pelo agendamento

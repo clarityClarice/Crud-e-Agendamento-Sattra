@@ -75,7 +75,7 @@ export default class Home extends React.Component {
                     
                     
 
-                    <a className="float" href="/#/agendar">
+                    <a className="float" href="/#/app/agendar">
                         <i className="fa fa-plus my-float"></i>
                     </a>    
 

@@ -1,11 +1,11 @@
-import React from 'react'
+import React, { Component } from 'react'
 import api from '../../services/api'
 
 import './listarCadastros.css'
 
 import Main from '../template/Main'
 
-class listarCadastros extends React.Component {
+class listarCadastros extends Component {
  
     state = { 
         pessoa: {},
@@ -13,25 +13,20 @@ class listarCadastros extends React.Component {
     }
 
     componentDidMount(){
-       async function listarPessoas(){
-            try {
-                const response = await api.get('/ws/pessoas', {
-                    data: {
-                        "empresa_id": 20180000001
-                    }
-                })
-                console.log(response);
-            } catch (error) {
-                console.error(error);
-              }
-            
-           // this.setState({pessoas: response.data})
-           
-        }
-        listarPessoas()
+        this.listarPessoas()
+    }
+
+   listarPessoas = async () =>{
+        const response = await api.get('/ws/pessoas', {
+            params: {
+                "empresa": 20180000001
+            }
+        })
+        console.log(response);
+       this.setState({pessoas: response.data})
     }
     
-    renderTable(){
+    renderTable = () =>{
         return (
             <table className="table mt-4">
                 <thead>
@@ -51,21 +46,21 @@ class listarCadastros extends React.Component {
         )
     }
 
-    renderRows(){
+    renderRows = () =>{
         return this.state.pessoas.map( pessoa => {
             return (
                 <tr key={pessoa.id}>
-                    <td>{pessoa.name}</td>
+                    <td>{pessoa.nome}</td>
                     <td>{pessoa.cpf}</td>
                     <td>{pessoa.cargo}</td>
                     <td>{pessoa.passaporte}</td>
                     <td>{pessoa.status}</td>
                     <td>
-                        <button className="btn btn-warning" onClick={() => this.load(pessoa)}>
+                        <button className="btn" onClick={() => this.load(pessoa.id)}>
                             <i className="fa fa-pencil"></i>
                         </button>
 
-                        <button className="btn btn-danger ml-2" onClick={() => this.remove(pessoa)}>
+                        <button className="btn" onClick={() => this.remove(pessoa)}>
                             <i className="fa fa-trash"></i>
                         </button>
                     </td>
@@ -74,13 +69,20 @@ class listarCadastros extends React.Component {
         })
     }
 
+    load = (id) =>{
+        window.location.href = `/#/app/editar/${id}`
+    }
+
+    remove = () => {
+
+    }
     render(){
         return (
             <Main icon="users" title="Cadastros" subtitle="Listagem de cadastros">
                 {this.renderTable()}
 
 
-                <a className="float" href="/#/novo">
+                <a className="float" href="/#/app/novo">
                     <i className="fa fa-plus my-float"></i>
                 </a>
             </Main>

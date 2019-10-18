@@ -13,6 +13,7 @@ export default props =>
         <Route exact path='/app/home' component={Home} />
         <Route exact path='/app/cadastros' component={listarCadastros} />
         <Route exact path="/app/novo" component={UserCrud} />
+        <Route exact path="/app/editar/:id" component={UserCrud} />
         <Route exact path='/app/agenda' component={Agenda} />
         <Route exact path='/app/agendar' component={Agendar} />
         <Redirect from='*' to='/404' />

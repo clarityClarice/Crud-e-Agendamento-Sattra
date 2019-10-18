@@ -3,48 +3,49 @@ import Main from '../template/Main'
 import Axios from 'axios'
 
 
-const baseUrl = 'http://localhost:3001/users'
+const baseUrl = 'http://192.168.25.13:8089/ws/pessoas'
 const initialState = {
-    user: {name: '', dataNasc:'', email: '', telefone: '', cpf: '', passaporte:'',
+    pessoa: {id: '', nome: '', dataNasc:'', email: '', telefone: '', cpf: '', passaporte:'',
             cnh:'', cnhValidade:'', cargo: '', observacoes: ''},
-    list: []
 }
 
+const url = "document/a"
+var urlArray= []
+urlArray = url.split('/')
+var id = 0;
 export default class UserCrud extends Component {
     state = { ...initialState}
 
-    componentWillMount(){
-        Axios(baseUrl).then(resp => {
-            this.setState({ list: resp.data})
-        })
-
+    componentDidMount(){
+        this.setState({pessoa: {
+            id: urlArray[urlArray.length() -1]
+        }})
     }
 
     clear() {
-        this.setState({user: initialState.user})
+        this.setState({pessoa: initialState.pessoa})
     }
 
     save(){
-        const user = this.state.user
-        const method = user.id ? 'put' : 'post'
-        const url = user.id ? `${baseUrl}/${user.id}` : baseUrl
-        Axios[method](url, user)
+        const pessoa = this.state.pessoa
+        const method = pessoa.id ? 'put' : 'post'
+        Axios[method](url, pessoa)
             .then(resp => {
                 const list = this.getUpdatedList(resp.data)
-                this.setState({ user: initialState.user, list})
+                this.setState({ pessoa: initialState.pessoa, list})
             })
     }
 
-    getUpdatedList(user){
-        const list = this.state.list.filter(u => u.id !== user.id)
-        list.unshift(user)
+    getUpdatedList(pessoa){
+        const list = this.state.list.filter(u => u.id !== pessoa.id)
+        list.unshift(pessoa)
         return list
     }
 
     updateField(event){
-        const user = {...this.state.user}
-        user[event.target.name] = event.target.value 
-        this.setState({ user })
+        const pessoa = {...this.state.pessoa}
+        pessoa[event.target.name] = event.target.value 
+        this.setState({ pessoa })
 
     }
 
@@ -58,7 +59,7 @@ export default class UserCrud extends Component {
                             <input type="text"
                                 name="name"
                                 className="form-control"
-                                value={this.state.user.name}
+                                value={this.state.pessoa.name}
                                 onChange={e => this.updateField(e)}
                                 placeholder="Digite o nome do usuário"
                             />
@@ -70,7 +71,7 @@ export default class UserCrud extends Component {
                             <input type="date"
                                 name="dataNascimento"
                                 className="form-control"
-                                value={this.state.user.dataNasc}
+                                value={this.state.pessoa.dataNasc}
                                 onChange={e => this.updateField(e)}
                                 placeholder=" dd/mm/aaaa"
                             />
@@ -82,7 +83,7 @@ export default class UserCrud extends Component {
                             <input type="text"
                                 name="cpf"
                                 className="form-control"
-                                value={this.state.user.cpf}
+                                value={this.state.pessoa.cpf}
                                 onChange={e => this.updateField(e)}
                                 placeholder="000.000.000-00" />
                         </div>
@@ -93,7 +94,7 @@ export default class UserCrud extends Component {
                             <input type="text"
                                 name="passaporte"
                                 className="form-control"
-                                value={this.state.user.passaporte}
+                                value={this.state.pessoa.passaporte}
                                 onChange={e => this.updateField(e)}
                                 placeholder="Insira o passaporte" />
                         </div>
@@ -104,7 +105,7 @@ export default class UserCrud extends Component {
                             <input type="text"
                                 name="cnh"
                                 className="form-control"
-                                value={this.state.user.cnh}
+                                value={this.state.pessoa.cnh}
                                 onChange={e => this.updateField(e)}
                                 placeholder="Número da CNH" />
                         </div>
@@ -115,7 +116,7 @@ export default class UserCrud extends Component {
                             <input type="date"
                                 name="passaporte"
                                 className="form-control"
-                                value={this.state.user.cnhValidade}
+                                value={this.state.pessoa.cnhValidade}
                                 onChange={e => this.updateField(e)}/>
                         </div>
                     </div>
@@ -125,7 +126,7 @@ export default class UserCrud extends Component {
                             <input type="text"
                                 name="email"
                                 className="form-control"
-                                value={this.state.user.email}
+                                value={this.state.pessoa.email}
                                 onChange={e => this.updateField(e)}
                                 placeholder="Digite o E-mail" />
                         </div>
@@ -136,7 +137,7 @@ export default class UserCrud extends Component {
                             <input type="number"
                                 name="telefone"
                                 className="form-control"
-                                value={this.state.user.telefone}
+                                value={this.state.pessoa.telefone}
                                 onChange={e => this.updateField(e)}
                                 placeholder="+00 0000-0000" />
                         </div>
@@ -147,7 +148,7 @@ export default class UserCrud extends Component {
                             <input type="text"
                                 name="Cargo"
                                 className="form-control"
-                                value={this.state.user.cargo}
+                                value={this.state.pessoa.cargo}
                                 onChange={e => this.updateField(e)}
                                 placeholder="Digite o cargo" />
                         </div>
@@ -158,7 +159,7 @@ export default class UserCrud extends Component {
                             <input type="text"
                                 name="observacoes"
                                 className="form-control"
-                                value={this.state.user.observacoes}
+                                value={this.state.pessoa.observacoes}
                                 onChange={e => this.updateField(e)}
                                 placeholder="Adicionar observações (opcional)" />
                         </div>
@@ -180,13 +181,13 @@ export default class UserCrud extends Component {
         )
     }
 
-    load(user) {
-        this.setState({ user })
+    load(pessoa) {
+        this.setState({ pessoa })
     }
 
-    remove(user) {
-        Axios.delete(`${baseUrl}/${user.id}`).then(resp => {
-            const list = this.state.list.filter( u=> u!==user)
+    remove(pessoa) {
+        Axios.delete(`${baseUrl}/${pessoa.id}`).then(resp => {
+            const list = this.state.list.filter( u=> u!==pessoa)
             this.setState({ list })
         })
     }

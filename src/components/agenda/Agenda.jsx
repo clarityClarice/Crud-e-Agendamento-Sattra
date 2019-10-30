@@ -6,13 +6,31 @@ import './Agenda.css'
 const initialState = {
     user: {name: '', cpf: '', horaInicial: '', horaFinal: '', status: ''},
     list: [],
-    data_inicial: '2019-10-30',
-    data_final: '2019-10-30'
+    data_inicial: '',
+    data_final: ''
 }
 
 
 export default class Home extends React.Component {
     state = { ...initialState}
+
+    componentDidMount(){
+        const today = new Date()
+        var { data_inicial, data_final } = this.state
+        var month = '0'
+        if ((today.getMonth() + 1) < 10){
+            month += `${today.getMonth() + 1}`
+        } else {
+            month = `${today.getMonth() + 1}`
+        }
+        data_inicial = `${today.getFullYear()}-${month}-${today.getDate()}`
+        data_final = `${today.getFullYear()}-${month}-${today.getDate()}`
+        this.setState({
+            data_inicial,
+            data_final
+        })
+    }
+
     renderTable(){
         return (
             <table className="table mt-4">

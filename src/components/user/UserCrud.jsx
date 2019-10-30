@@ -1,52 +1,85 @@
 import React, { Component } from 'react'
 import Main from '../template/Main'
+import api from '../../services/api'
+
 import Axios from 'axios'
 
 
-const baseUrl = 'http://192.168.25.13:8089/ws/pessoas'
-const initialState = {
-    pessoa: {id: '', nome: '', dataNasc:'', email: '', telefone: '', cpf: '', passaporte:'',
-            cnh:'', cnhValidade:'', cargo: '', observacoes: ''},
-}
-
-const url = "document/a"
-var urlArray= []
-urlArray = url.split('/')
-var id = 0;
 export default class UserCrud extends Component {
-    state = { ...initialState}
-
-    componentDidMount(){
-        this.setState({pessoa: {
-            id: urlArray[urlArray.length() -1]
-        }})
+    state = {
+        pessoa: {id: '', nome: '', data_nascimento: new Date(), email: '', telefone_principal: '', cpf: '', passaporte:'',
+                cnh:'', validade_cnh: new Date(), cargo: '', observacao: '', responsavel_id: ''},
+        setores: [{id: 0, nome: ''}],
+        setor: {id: '', nome: ''}
     }
 
-    clear() {
-        this.setState({pessoa: initialState.pessoa})
+    async componentDidMount(){
+        const response = await api.get('/ws/setores')
+        this.setState({setores: response.data})
+        console.log(response.data)
+
+        var urlArray = window.location.href.split('/')
+        const idFromUrl = urlArray[6]? urlArray[6] : 0
+        if(idFromUrl != 0){
+            this.setState({pessoa: {
+                id: idFromUrl
+            }})
+
+           const response = await api.get(`/ws/pessoa/${idFromUrl}`)
+           this.setState({pessoa: response.data})
+           console.log(this.state.pessoa)
+
+            this.setState({ setor: {
+                id: response.data.responsavel_id
+            }})
+
+           var DateCnh = new Date(response.data.validadecnh)
+           var validadeCnh = ''
+           var monthCnh = DateCnh.getUTCMonth() + 1
+            validadeCnh= DateCnh.getUTCDate()  + '/'
+            validadeCnh+= monthCnh + '/'
+            validadeCnh+= DateCnh.getUTCFullYear()
+            this.setState({pessoa: { ...response.data,
+                validade_cnh: validadeCnh}})
+
+
+            var BornDate = new Date(response.data.data_nascimento)
+            var dataDeNasc = ''
+            dataDeNasc = BornDate.getUTCDate() + '/'
+            dataDeNasc +=( BornDate.getUTCMonth() + 1) + '/'
+            dataDeNasc += BornDate.getUTCFullYear()
+            this.setState({pessoa: {...response.data , data_nascimento: dataDeNasc}})
+        }
+
     }
+
 
     save(){
-        const pessoa = this.state.pessoa
-        const method = pessoa.id ? 'put' : 'post'
-        Axios[method](url, pessoa)
+        const method = this.state.pessoa.id ? 'put' : 'post'
+        console.log(this.state.pessoa)
+        console.log(method)
+        Axios[method](`http://192.168.25.13:8089/ws/pessoa/${this.state.pessoa.id}`, this.state.pessoa)
             .then(resp => {
-                const list = this.getUpdatedList(resp.data)
-                this.setState({ pessoa: initialState.pessoa, list})
+                this.setState({ pessoa: this.state.pessoa})
+                console.log(resp)
             })
     }
 
-    getUpdatedList(pessoa){
-        const list = this.state.list.filter(u => u.id !== pessoa.id)
-        list.unshift(pessoa)
-        return list
-    }
 
     updateField(event){
         const pessoa = {...this.state.pessoa}
         pessoa[event.target.name] = event.target.value 
         this.setState({ pessoa })
 
+    }
+
+    updateSectorField(event){
+        this.setState({
+            pessoa: {
+                ...this.state.pessoa,
+                responsavel_id: event.target.value.split(' ')[0]
+            }
+        })
     }
 
     renderForm(){
@@ -59,7 +92,7 @@ export default class UserCrud extends Component {
                             <input type="text"
                                 name="name"
                                 className="form-control"
-                                value={this.state.pessoa.name}
+                                value={this.state.pessoa.nome}
                                 onChange={e => this.updateField(e)}
                                 placeholder="Digite o nome do usuário"
                             />
@@ -68,10 +101,10 @@ export default class UserCrud extends Component {
                     <div className="col-12 col-md-6">
                         <div className="form-group">
                             <label> Data de nascimento </label>
-                            <input type="date"
-                                name="dataNascimento"
+                            <input type="text"
+                                name="data_nascimento"
                                 className="form-control"
-                                value={this.state.pessoa.dataNasc}
+                                value={this.state.pessoa.data_nascimento}
                                 onChange={e => this.updateField(e)}
                                 placeholder=" dd/mm/aaaa"
                             />
@@ -113,11 +146,13 @@ export default class UserCrud extends Component {
                     <div className="col-12 col-md-6">
                         <div className="form-group" >
                             <label> Validade CNH </label>
-                            <input type="date"
-                                name="passaporte"
+                            <input type="text"
+                                name="validade_cnh"
                                 className="form-control"
-                                value={this.state.pessoa.cnhValidade}
-                                onChange={e => this.updateField(e)}/>
+                                value={this.state.pessoa.validade_cnh}
+                                onChange={e => this.updateField(e)}
+                                placeholder=" dd/mm/aaaa"
+                            />
                         </div>
                     </div>
                     <div className="col-12 col-md-6">
@@ -137,7 +172,7 @@ export default class UserCrud extends Component {
                             <input type="number"
                                 name="telefone"
                                 className="form-control"
-                                value={this.state.pessoa.telefone}
+                                value={this.state.pessoa.telefone_principal}
                                 onChange={e => this.updateField(e)}
                                 placeholder="+00 0000-0000" />
                         </div>
@@ -159,9 +194,17 @@ export default class UserCrud extends Component {
                             <input type="text"
                                 name="observacoes"
                                 className="form-control"
-                                value={this.state.pessoa.observacoes}
+                                value={this.state.pessoa.observacao}
                                 onChange={e => this.updateField(e)}
                                 placeholder="Adicionar observações (opcional)" />
+                        </div>
+                    </div>
+                    <div className="col-12 col-md-6">
+                        <div className="form-group">
+                            <label> Setor Responsável</label>
+                            <select onChange={ e=> this.updateSectorField(e)} value={this.state.setor.nome}>
+                                {this.state.setores.map (setor => <option key={setor.id}> {setor.id} {setor.nome} </option>)}
+                            </select>
                         </div>
                     </div>
                 </div>
@@ -179,17 +222,6 @@ export default class UserCrud extends Component {
                 
             </div>
         )
-    }
-
-    load(pessoa) {
-        this.setState({ pessoa })
-    }
-
-    remove(pessoa) {
-        Axios.delete(`${baseUrl}/${pessoa.id}`).then(resp => {
-            const list = this.state.list.filter( u=> u!==pessoa)
-            this.setState({ list })
-        })
     }
 
    

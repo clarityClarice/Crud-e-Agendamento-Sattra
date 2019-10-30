@@ -7,6 +7,7 @@ import listarCadastros from '../components/listarCadastros/listarCadastros'
 import UserCrud from '../components/user/UserCrud'
 import Agenda from '../components/agenda/Agenda'
 import Agendar from '../components/agendar/Agendar'
+import NovoAgendamento from '../components/novoAgendamento/NovoAgendamento'
 
 export default props =>
     <Switch>
@@ -16,5 +17,7 @@ export default props =>
         <Route exact path="/app/editar/:id" component={UserCrud} />
         <Route exact path='/app/agenda' component={Agenda} />
         <Route exact path='/app/agendar' component={Agendar} />
+        <Route exact path='/app/novoagendamento' component={NovoAgendamento} />
+
         <Redirect from='*' to='/404' />
     </Switch>

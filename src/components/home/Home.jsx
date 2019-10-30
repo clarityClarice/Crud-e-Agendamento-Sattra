@@ -32,8 +32,9 @@ export default class Home extends React.Component {
                 empresa_id: 20180000001
             }
         })
-
-        //this.setState({ list: response.data})
+          if(response.data){
+            this.setState({ list: response.data})
+          }
     }
 
     renderTable(){

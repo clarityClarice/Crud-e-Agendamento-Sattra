@@ -5,7 +5,9 @@ import './Agenda.css'
 
 const initialState = {
     user: {name: '', cpf: '', horaInicial: '', horaFinal: '', status: ''},
-    list: []
+    list: [],
+    data_inicial: '2019-10-30',
+    data_final: '2019-10-30'
 }
 
 
@@ -46,6 +48,19 @@ export default class Home extends React.Component {
                 )
             })
     }
+
+    updateDataInicial(event){
+        var { data_inicial } = this.state
+        data_inicial = event.target.value 
+        this.setState({ data_inicial })
+    }
+
+    updateDataFinal(event){
+        var { data_final } = this.state
+        data_final = event.target.value 
+        this.setState({ data_final })
+    }
+
     render(){
         return(
             <Main icon="calendar" title="Agenda" subtitle="Visualizar, editar, adicionar e excluir agendamentos">
@@ -58,7 +73,7 @@ export default class Home extends React.Component {
                             </div> 
 
                             <div className="datePicker ">
-                                <input type="date"></input>
+                                <input type="date" value={this.state.data_inicial} name="data_inicial" onChange={e => this.updateDataInicial(e)}></input>
                             </div>  
                         </div>
                         
@@ -68,7 +83,7 @@ export default class Home extends React.Component {
                             </div> 
 
                             <div className="datePicker ">
-                                <input type="date"></input>
+                                <input type="date" value={this.state.data_final} onChange={e => this.updateDataFinal(e)}></input>
                             </div>  
                         </div>
                     </div>

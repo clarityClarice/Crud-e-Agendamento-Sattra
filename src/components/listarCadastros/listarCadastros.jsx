@@ -22,7 +22,6 @@ class listarCadastros extends Component {
                 "empresa": 20180000001
             }
         })
-        console.log(response);
        this.setState({pessoas: response.data})
     }
     

@@ -6,7 +6,8 @@ import api from '../../services/api'
 
 const initialState = {
     user: {name: '', cpf: '', horaInicial:'', horaFinal:''},
-    list: []
+    list: [],
+    today: ''
 }
 
 export default class Home extends React.Component {
@@ -14,11 +15,25 @@ export default class Home extends React.Component {
     state = { ...initialState}
 
     componentDidMount(){
-        api.get('/ws/agendamentos', {
+        var { today } = this.state
+        const todayDate = new Date()
+        var month = '0'
+        if ((todayDate.getMonth() + 1) < 10){
+            month += `${todayDate.getMonth() + 1}`
+        } else {
+            month = `${todayDate.getMonth() + 1}`
+        }
+        today = `${todayDate.getFullYear()}-${month}-${todayDate.getDate()}`
+        console.log(today)
+
+
+        const response = api.get('/ws/agendamentos', {
             data:{
                 empresa_id: 20180000001
             }
         })
+
+        //this.setState({ list: response.data})
     }
 
     renderTable(){

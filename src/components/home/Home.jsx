@@ -1,6 +1,7 @@
 import React from 'react'
 import Main from '../template/Main'
 
+import api from '../../services/api'
 
 
 const initialState = {
@@ -11,6 +12,14 @@ const initialState = {
 export default class Home extends React.Component {
     
     state = { ...initialState}
+
+    componentDidMount(){
+        api.get('/ws/agendamentos', {
+            data:{
+                empresa_id: 20180000001
+            }
+        })
+    }
 
     renderTable(){
         return (

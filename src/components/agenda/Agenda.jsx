@@ -1,10 +1,12 @@
 import React from 'react'
 import Main from '../template/Main'
 
+import api from '../../services/api'
+
 import './Agenda.css'
 
 const initialState = {
-    user: {name: '', cpf: '', horaInicial: '', horaFinal: '', status: ''},
+    user: {nome: '', cpf: '', data_inicial: '', data_final: '', status: ''},
     list: [],
     data_inicial: '',
     data_final: ''
@@ -51,15 +53,21 @@ export default class Home extends React.Component {
         )
     }
     
+    dateStyle(date){
+        var options = { dateStyle: 'long', timeStyle: 'short'}
+        var newData = new Date(date)
+        
+        return newData.toLocaleDateString('pt-BR', options)
+    }
 
     renderRows(){
             return this.state.list.map( user => {
                 return (
                     <tr key={user.id}>
-                        <td>{user.name}</td>
+                        <td>{user.nome}</td>
                         <td>{user.cpf}</td>
-                        <td>{user.horaInicial}</td>
-                        <td>{user.horaFinal} </td>
+                        <td>{this.dateStyle(user.data_inicial)}</td>
+                        <td>{this.dateStyle(user.data_final)} </td>
                         <td>{user.status}</td>
                         <td>Botões</td>
                     </tr>
@@ -77,6 +85,22 @@ export default class Home extends React.Component {
         var { data_final } = this.state
         data_final = event.target.value 
         this.setState({ data_final })
+    }
+
+    async load(){
+        const { data_inicial, data_final } = this.state
+        const response = await api.get('/ws/agendamentos', {
+            params: {
+                empresa: 20180000001,
+                data_inicial,
+                data_final
+            }
+        })
+
+        console.log(response.data)
+        if(response.data){
+            this.setState({list: response.data})
+        }
     }
 
     render(){
@@ -104,6 +128,10 @@ export default class Home extends React.Component {
                                 <input type="date" value={this.state.data_final} onChange={e => this.updateDataFinal(e)}></input>
                             </div>  
                         </div>
+
+                        <button type="button" onClick={() => this.load()}>
+                            <i className="fa fa-search"></i>
+                        </button>
                     </div>
                     
                     

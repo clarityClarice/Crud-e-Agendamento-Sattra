@@ -9,5 +9,18 @@
 
 .mastergroup{
     display: grid;
-    grid-template-columns: 1fr 1fr
+    grid-template-columns: 1fr 1fr 1fr
 }
+
+.mastergroup button{
+    cursor: pointer;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    align-self: flex-end;
+    border: none;
+    box-shadow: 3px 3px 5px rgb(124, 124, 124);
+    color: white;
+    background-color: lightseagreen
+}
+

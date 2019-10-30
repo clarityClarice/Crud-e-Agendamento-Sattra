@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Main from '../template/Main'
 import api from '../../services/api'
+import { Link } from 'react-router-dom'
 
 import Axios from 'axios'
 
@@ -81,6 +82,7 @@ export default class UserCrud extends Component {
             }
         })
     }
+
 
     renderForm(){
         return (
@@ -214,9 +216,11 @@ export default class UserCrud extends Component {
                             Salvar
                         </button>
 
-                        <button onClick={ e => this.clear(e)} className="btn btn secondary ml-2">
-                            Cancelar
-                        </button>
+                        <Link to="/app/cadastros" >
+                            <button className="btn btn secondary ml-2">
+                                Cancelar
+                            </button>
+                        </Link>
                     </div>
                 </div>
                 

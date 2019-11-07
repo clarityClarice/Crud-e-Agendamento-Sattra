@@ -60,12 +60,23 @@ export default class UserCrud extends Component {
 
     save(){
         const method = this.state.pessoa.id ? 'put' : 'post'
-        Axios[method](`http://192.168.25.13:8089/ws/pessoa/${this.state.pessoa.id}`, this.state.pessoa)
+        console.log(method)
+        if(method == 'put'){
+            Axios[method](`http://192.168.25.13:8089/ws/pessoa/${this.state.pessoa.id}`, this.state.pessoa)
             .then(resp => {
                 this.setState({ pessoa: this.state.pessoa})
             })
         
             window.location.href = `/#/app/cadastros`
+        } else{
+            Axios[method](`http://192.168.25.13:8089/ws/pessoa`, this.state.pessoa)
+            .then(resp => {
+                this.setState({ pessoa: this.state.pessoa})
+            })
+        
+            window.location.href = `/#/app/cadastros`
+        }
+       
     }
 
 
@@ -176,8 +187,8 @@ export default class UserCrud extends Component {
                     <div className="col-12 col-md-6">
                         <div className="form-group" >
                             <label> Telefone </label>
-                            <input type="number"
-                                name="telefone"
+                            <input type="phone"
+                                name="telefone_principal"
                                 className="form-control"
                                 value={this.state.pessoa.telefone_principal}
                                 onChange={e => this.updateField(e)}

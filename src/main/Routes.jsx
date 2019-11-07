@@ -17,7 +17,7 @@ export default props =>
         <Route exact path="/app/editar/:id" component={UserCrud} />
         <Route exact path='/app/agenda' component={Agenda} />
         <Route exact path='/app/agendar' component={Agendar} />
-        <Route exact path='/app/novoagendamento' component={NovoAgendamento} />
+        <Route exact path='/app/novoagendamento/:id' component={NovoAgendamento} />
 
         <Redirect from='*' to='/404' />
     </Switch>
